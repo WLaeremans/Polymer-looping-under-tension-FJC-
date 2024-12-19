@@ -1,0 +1,70 @@
+# LAMMPS input file
+
+units 	 lj 
+atom_style 	 bond 
+boundary 	 s s s
+
+read_data 	 polymer50.data extra/bond/per/atom 50 extra/special/per/atom 50
+
+# interactions 
+
+pair_style zero 1
+pair_coeff * *
+
+bond_style 	 harmonic 
+bond_coeff 	 * 50 1.0 
+
+group left_bead id 1 
+group right_bead id 50
+
+# Equilibration
+
+timestep 	 0.05 
+velocity 	 all create 1.0 ${seed} rot yes dist gaussian 
+
+thermo 	 10000 
+thermo_style 	 custom step time etotal temp press vol 
+
+fix left_force left_bead addforce -1.0 0.0 0.0
+fix right_force right_bead addforce 1.0 0.0 0.0
+
+fix ini_temp 	 all nve/limit $(100.0*dt) 
+fix Lang_dyn all langevin 1 1 1 ${seed}
+
+run 	 100000
+
+unfix ini_temp 
+unfix Lang_dyn 
+
+# Main simulation
+
+reset_timestep 0
+timestep 0.005
+
+molecule mol1 	 rxn_pre.data_template 
+molecule mol2 	 rxn_post.data_template 
+
+fix rxns 	 all bond/react stabilization yes statted_grp 0.005 & 
+	 react rxn1_stp1 	 all 1 0.0 1 mol1 mol2 rxn.map stabilize_steps 200 & 
+	 react rxn1_stp2 	 all 1 0.0 1 mol2 mol1 rxn.map stabilize_steps 200 
+
+
+fix post_Lang_dyn2 all ffl 1 1 1 ${seed}
+
+
+variable r equal f_rxns[1]
+variable t equal step
+variable condition equal 0
+
+label loop
+variable a loop 100000000000000
+run 1000
+if "${condition} > 0" then "jump SELF break"
+if "${r} > 0" then "variable condition equal 1" "fix extra all print 1000 '${t}' file bond_info.${seed}.txt"
+
+next a
+jump SELF loop
+label break
+print "ALL DONE"
+
+write_data 	 system.data
