@@ -13,5 +13,6 @@ For the MATLAB code, MATLAB R2023a was used. The MATLAB files for the analysis a
 
 The second subfolder contains the code and data to produce Figure 3 in the article. Again, the Data folder should be added to the main path. The data with N = 19 and rc = 1 is accurate up to +- 500 timesteps. All the other data files were produced with the customised fix. 
 
+The final subfolders contains 3 MATLAB files, FJC_plot3 used to produce Figure 4 in the article, FJC_plot4 used to produce Figure 6 in the article and FJC_plot5 used to produce Figure 7 in the article. Concerning the final file, code is added to perform the nummerical integration using the exact distribution for N = 19 (dotted line in Figure), which takes quite some time to run. However, in the Data folder, we have added as well data_exact_solution_N19.mat, which can be loaded an plotted as plot(f_range,log(tau),'LineWidth',1,'LineStyle', '--', 'Color', 'k');, then the user does not have to run the part solving the integral nummerically.  
 
 
