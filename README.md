@@ -8,6 +8,8 @@ The code is now written for a polymer containing 50 beads. When one wants to cha
 
 Finally, the capture radius is 1 (LJ units) in the code here. When one wants to change this, one has to adapt the third number in the first reaction step. For example, now it says react rxn1_stp1 	 all 1 0.0 1, while for a capture radius of 1.5 this would become react rxn1_stp1 	 all 1 0.0 1.5. When using a capture radius of 1.5, one has to add neighbor 5.0 bin (just before equilibration) in main.lmp/main_customised_fix.lmp and change the simulation box in the data file to -1000 1000 for every dimension.
 
+The 3 reaction files rxn.map, rxn_pre.data_template and rxn_post.data_template have no further use than simply defining a reaction to efficiently determine when a loop is formed. 
+
 ## MATLAB
 For the MATLAB code, MATLAB R2023a was used. The MATLAB files for the analysis are catogarised in 3 main subfolders. The first is Looping_without_force, which is used for Figure 2 in the article. To run the code, one should open de file FJC_plot1.m and load the folder Data. This folder should be added to the main path. The Data files are named as follows: Nx_fy_rcz.txt, where x is the number of joints (so x+1 beads), y the force and z the capture radius. However, when the capture radius is one (which we see as the default, this is not specified, for example N14_f1.txt. For capture radii 0.5 and 1, main.lmp was used to generate. Hence, they only have an accuracy of +- 500 timesteps. Therefore, in the matlab code we subtract 500 timesteps to average this out. Every data file contains 100 numbers, as 100 simulations were performed in LAMMPS for every set. 
 
