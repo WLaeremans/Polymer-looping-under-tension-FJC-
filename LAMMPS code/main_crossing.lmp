@@ -1,11 +1,10 @@
 # LAMMPS input file
 
 units 	 lj 
-#atom_style 	 bond 
-atom_style angle
+atom_style 	 bond 
 boundary 	 s s s
 
-read_data 	 catchbond50.data extra/bond/per/atom 50 extra/special/per/atom 50
+read_data 	 polymer50.data extra/bond/per/atom 50 extra/special/per/atom 50
 
 # interactions 
 
@@ -17,7 +16,6 @@ bond_coeff 	 * 50 1.0
 
 group left_bead id 1 
 group right_bead id 50
-group end_monomers id 1 50
 
 # Equilibration
 
@@ -27,8 +25,8 @@ velocity 	 all create 1.0 ${seed} rot yes dist gaussian
 thermo 	 10000 
 thermo_style 	 custom step time etotal temp press vol 
 
-fix left_force left_bead addforce -1.125 0.0 0.0
-fix right_force right_bead addforce 1.125 0.0 0.0
+fix left_force left_bead addforce -1.0 0.0 0.0
+fix right_force right_bead addforce 1.0 0.0 0.0
 
 fix ini_temp 	 all nve/limit $(100.0*dt) 
 fix Lang_dyn all langevin 1 1 1 ${seed}
@@ -43,7 +41,6 @@ unfix Lang_dyn
 reset_timestep 0
 timestep 0.005
 
-
 fix post_Lang_dyn2 all ffl 1 1 1 ${seed}
 
 variable a1x equal x[1]
@@ -53,7 +50,6 @@ variable ax equal "x[50] - x[1]"
 variable t equal step
 variable condition equal 0
 
-# dump  dump_final all xyz 1 dump.traj.${seed}.txt
 
 label loop
 variable a loop 10000000000000
