@@ -6,7 +6,7 @@ For the LAMMPS code, LAMMPS (2 Aug 2023) was used. There are 3 main files: 1) ma
 
 The code is now written for a polymer containing 50 beads. When one wants to change this, the data file polymer50.data has to be modified, as well as the main file. In the main file, one should change the id of the right bead to the new number of beads. Furthermore, the code applies a force of 1 (LJ units) on both ends of the polymer, but this can also be changed to a different number. 
 
-Finally, the capture radius is 1 (LJ units) in the code here. When one wants to change this, one has to adapt the third number in the first reaction step. For example, now it says react rxn1_stp1 	 all 1 0.0 1, while for a capture radius of 1.5 this would become react rxn1_stp1 	 all 1 0.0 1.5. When using a capture radius of 1.5, one has to add neighbor 5.0 bin (just before equilibration) in main.lmp/main_customised_fix.lmp and change the simulation box in the data file to -1000 1000 for every dimension.
+Finally, the capture radius is 1 (LJ units) in the code here. When one wants to change this, one has to adapt the third number in the first reaction step. For example, now it says react rxn1_stp1 	 all 1 0.0 1, while for a capture radius of 1.5 this would become react rxn1_stp1 	 all 1 0.0 1.5. When using a capture radius of 1.5, one has to add neighbor 5.0 bin (just before equilibration) in the main file and change the simulation box in the data file to -1000 1000 for every dimension.
 
 The 3 reaction files rxn.map, rxn_pre.data_template and rxn_post.data_template have no further use than simply defining a reaction to efficiently determine when a loop is formed. 
 
