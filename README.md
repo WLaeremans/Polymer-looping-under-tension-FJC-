@@ -1,6 +1,8 @@
 # Polymer-looping-under-tension-FJC-
 Code used for publication in Physical Review E: "Polymer dynamics under tension: mean first passage time for looping", by Wout Laeremans, Anne Floor den Ouden, Jef Hooyberghs and Wouter G. Ellenbroek.
 
+Code and data available on Zenodo: https://doi.org/10.5281/zenodo.14614951
+
 ## LAMMPS
 For the LAMMPS code, LAMMPS (2 Aug 2023) was used. There are 3 main files: 1) main.lmp and 2) main_customised_fix.lmp and 3) main_crossing.lmp. The former checks every 1000 timesteps whether the polymer has formed a loop and prints the timestep at which a loop is formed to the file bond_info.${seed}.txt. Due to this if statement however, this code might be slow, especially when one wants to check loop formation with a higher accurary than every 1000 timesteps. This issue is fixed in the latter main file, for which we have slightly changed the LAMMPS source code. We changed fix_bond_react.cpp as follows: https://github.com/wouterel/lammps/commit/314e9ca4e797eabb391b2d5b575cb6f5e259d4e0. With this fix, main_customised_fix.lmp prints the exact timestep a loop is formed, without requiring an if statement. Finally, main_crossing.lmp checks every 1000 timesteps whether the x-coordinates have crossed.
 
